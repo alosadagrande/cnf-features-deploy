@@ -1,0 +1,25 @@
+apiVersion: platform.stackrox.io/v1alpha1
+kind: SecuredCluster
+metadata:
+  name: stackrox-secured-cluster-services
+  namespace: stackrox
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+spec:
+  admissionControl:
+    bypass: BreakGlassAnnotation
+    contactImageScanners: DoNotScanInline
+    listenOnCreates: false
+    listenOnEvents: true
+    listenOnUpdates: false
+    timeoutSeconds: 3
+  auditLogs:
+    collection: Auto
+  centralEndpoint: $centralEndpoint
+  clusterName: |
+    {{ fromSecret "open-cluster-management-agent" "hub-kubeconfig-secret" "cluster-name" | base64dec }}
+  perNode:
+    collector:
+      collection: KernelModule
+      imageFlavor: Regular
+    taintToleration: TolerateTaints
