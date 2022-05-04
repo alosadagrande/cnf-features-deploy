@@ -5,7 +5,7 @@
 apiVersion: machineconfiguration.openshift.io/v1
 kind: MachineConfig
 metadata:
-  name: 98-var-imageregistry-partition-{{ $.Role }}
+  name: 98-{{ .Label }}-partition-{{ $.Role }}
   labels:
     machineconfiguration.openshift.io/role: {{ $.Role }}
 spec:
